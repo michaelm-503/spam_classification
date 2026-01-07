@@ -1,0 +1,2 @@
+# spam_classification
+n this project you will build a machine learning model that predicts whether a text message is ham (normal) or spam (unwanted/advertising/scam). This is one of the most common “real world” classification problems and is a great way to practice the full data science workflow.  You will work with a labeled dataset of SMS messages and train a model using features created from text (for example: bag-of-words or TF–IDF).
