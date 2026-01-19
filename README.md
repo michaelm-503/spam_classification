@@ -68,7 +68,7 @@ What you will submit:
 
 ---
 
-###Descriptive Stats
+### Descriptive Stats
 
 **Full Corpus**
 
@@ -109,7 +109,7 @@ What you will submit:
 
 ---
 
-###Text Analysis
+### Text Analysis
 
 **Top 20 Words in corpus after cleaning and stop words removed (occurrence/message)**
 
@@ -161,25 +161,18 @@ What you will submit:
 | 19 | win    | 0.086  |                  516 |               0.002   |               77 |             0.014 |   34.4  |
 | 20 | urgent | 0.084  |                  794 |               0.001   |               87 |             0.013 |   58.1  |
 
-**Top 50 Words occuring in Spam messages only**
-
-claim prize 150p tone guaranteed awarded 150ppm ringtone entry tones collection mob valid tandc weekly 10p tandcs national vouchers bonus sae http poly unsubscribe land 12hrs expires opt dating mobileupd8 identifier winner pobox camcorder quiz 2lands operator suite342 freemsg costa wkly savamob txts call2optout complimentary charged mobiles ac ipod redeemed
-
-**Words with spam frequency to ham frequency ratio greater than 100x**
-
-uk www code award nokia delivery club await games private services video landline statement voucher
-
 ---
 
-###Takeaways
+### Takeaway
 
-The dataset appears to originate from the UK. These text messages contain a high amount of vernacular and shorthands that will generate noise columns in vectorization and evade stopwords.
-The data set contains ~5500 entries with 13.4% marked as spam.
-Average message length (before cleaning) for spam is nearly double of ham messages, 139 vs. 72.
-Average word counts after cleaning were 25 vs. 16.
-The top 5 words in the spam dataset were: free, txt, ur, mobile, text.
-Ratio of word occurence in spam messages vs. ham messages was measured. These words exceed 100x occurence in spam messages:
-uk www code award nokia delivery club await games private services video landline statement voucher
+- The dataset appears to originate from the UK. These text messages contain a high amount of vernacular and shorthands that will generate noise columns in vectorization and evade stopwords.
+- The data set contains ~5500 entries with 13.4% marked as spam.
+- Average message length (before cleaning) for spam is nearly double of ham messages, 139 vs. 72.
+- Average word counts after cleaning were 25 vs. 16 for spam and ham, respectively.
+- Message length has a correlation of 0.38 to the target column.
+- The top 5 words in the spam dataset were: free, txt, ur, mobile, text.
+- Ratio of word occurrence in spam messages vs. ham messages was measured. These words exceed 100x occurrence in spam messages:
+	- uk www code award nokia delivery club await games private services video landline statement voucher
 
 ---
 
@@ -264,11 +257,11 @@ uk www code award nokia delivery club await games private services video landlin
 ---
 
 ### Takeaway
-- Both decision tree and logistic regression handlily outperformed the dummy classifier baseline.
+- Both decision tree and logistic regression handily outperformed the dummy classifier baseline.
 - Logistic Regression (LR) shows a small improvement in precision over Decision Tree (DT) and a significant advantage for recall.
-- In order to better quantify modle performance, I did a 5x test of each model with their optimized parameters as a test of model stability and collected stats. All random_state args were removed.
+- In order to better quantify model performance, I did a 5x test of each model with their optimized parameters as a test of model stability and collected stats. All random_state args were removed.
     - LR performed ~1 sigma better on precision and ~4 sigma better on recall.
-    - This model stability method is taking different train-test splits of the same dataset and ulimately, model performance will be determined by testing on a new dataset.
+    - This model stability method is taking different train-test splits of the same dataset and ultimately, model performance will be determined by testing on a new dataset.
 
  | Model           | Precision *(>0.99)* | Recall *(>0.8)* | F1 Score | Accuracy | Train - F1 Score |
  | --------------- | :-------: | :----: | :------: | :------: | :--------------: |
@@ -349,10 +342,10 @@ uk www code award nokia delivery club await games private services video landlin
 
 ---
 
-### Takeaways
+### Takeaway
 
 - I performed a final model stability test on our baseline and leading models. Random Forest recall performance was still middling. I returned to vectorization parameters and found that turning off n_grams significantly improved recall on random forest - by ~4-sigma.
-- In its final form, random forest is performing with a precision score of 0.996 - just one false postive for every 249 true positives - while recall performance is also meeting goal with 82.4% of spam messages being flagged. While some spam messages will go through, this can be somewhat mitigated by UI design.
+- In its final form, random forest is performing with a precision score of 0.996 - just one false positive for every 249 true positives - while recall performance is also meeting goal with 82.4% of spam messages being flagged. While some spam messages will go through, this can be somewhat mitigated by UI design.
 - The finding that the original text outperforms cleaned text shows that there is still work to be done in cleaning the text, especially since when the corpus is so messy with abbreviations and typos.
 
  | Vectorize | Model    | Args           | Precision *(>0.99)* | Recall *(>0.8)* | F1 Score | Accuracy | Train - F1 Score |
@@ -407,8 +400,6 @@ The key insight for me (which ChatGPT even labeled 'key insight') was the best p
     - Logistic Regression (balanced, 10) had a precision score of 0.987 and recall of 0.951 - which was just short of the success criteria for precision.
     - Putting the random forest and logistic regression models together in a soft voting classifier outperformed both, with precision score of 0.995 (1 false positive for every 199 true positives) and recall score of 0.929. Overall, the F1 score was 0.961.
     - ChatGPT recommended a linear classifiers - either logistic regression or Support Vector Classification. After testing parameters, SVC(linear, 1) was the top performing single model.
-- Statistically speaking, all of these top models are essentially within 1-sigma of each other, so performance is matched. All of the Random Forest models and the ChatGPT recommended processing are all meeting success criteria and would likely be successful.
-- In order to keep the model effective, the corpus will need constant updating to keep up with language and spam techniques and trends. Incorporation of neural nets and LLM to infer malicious intentions is also another potential path forward.
 
  | Preprocess Strategy | Model                | Precision *(>0.99)* | Recall *(>0.8)* | F1 Score        | Accuracy        | Train - F1 Score |
  | --------- | ------------------------------ | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
@@ -429,3 +420,11 @@ The key insight for me (which ChatGPT even labeled 'key insight') was the best p
  | ChatGPT | **SVC(linear, 1)**               | **0.994 +/- 0.006** | **0.933 +/- 0.013** | 0.962 +/- 0.008 | 0.990 +/- 0.002 | 1.000 +/- 0.000 | 
 
 <p style="text-align:center;"><i>Mean +/- stdev after 5 random Test-Train-Split runs. Bold indicates meeting success criteria (precision > 0.99, recall > 0.8).</i></p>
+
+---
+
+### Takeaway
+
+- Statistically speaking, all of these top models are essentially within 1-sigma of each other, so performance should be considered matched.
+- All of the Random Forest models and the ChatGPT recommended processing methods are all meeting success criteria and would likely be successful.
+- In order to keep the model effective, the corpus will need constant updating to keep up with language and spam techniques and trends. Incorporation of neural nets and LLM to infer malicious intentions is also another potential path forward.
