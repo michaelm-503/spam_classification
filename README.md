@@ -5,7 +5,7 @@
 1. [Overview](#overview)
 2. [Learning Goals](#learning-goals)
 3. [Dataset](#dataset)
-4. [Exploratory Data Analysis (EDA)](#exploratory-data-analysis-(eda))
+4. [Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)
 5. [Data Modeling](#data-modeling)
 6. [Optimization](#optimization)
 7. [Cleaning Improvements](#cleaning-improvements)
