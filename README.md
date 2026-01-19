@@ -1,5 +1,15 @@
 # Project: Ham vs. Spam (Text Classification)
 
+## Table of Contents
+
+1. [Overview](#overview)
+2. [Learning Goals](#learning-goals)
+3. [Dataset](#dataset)
+4. [Exploratory Data Analysis (EDA)](#exploratory-data-analysis-(eda))
+5. [Data Modeling](#data-modeling)
+6. [Optimization](#optimization)
+7. [Cleaning Improvements](#cleaning-improvements)
+
 ## Overview
 In this project you will build a machine learning model that predicts whether a text message is **ham** (normal) or **spam** (unwanted/advertising/scam). This is one of the most common “real world” classification problems and is a great way to practice the full data science workflow.
 
