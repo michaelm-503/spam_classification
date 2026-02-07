@@ -1,44 +1,51 @@
-# Project: Ham vs. Spam (Text Classification)
+# Project: Ham vs. Spam: SMS Text Classification
 
-## Table of Contents
 
+####Table of Contents
 1. [Overview](#overview)
-2. [Learning Goals](#learning-goals)
-3. [Dataset](#dataset)
-4. [Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)
-5. [Data Modeling](#data-modeling)
-6. [Optimization](#optimization)
-7. [Cleaning Improvements](#cleaning-improvements)
+2. [Results](#results)
+3. [Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)
+3. [Data Modeling](#data-modeling)
+4. [Optimization](#optimization)
+5. [Cleaning Improvements](#cleaning-improvements)
 
 ## Overview
-In this project you will build a machine learning model that predicts whether a text message is **ham** (normal) or **spam** (unwanted/advertising/scam). This is one of the most common “real world” classification problems and is a great way to practice the full data science workflow.
 
-You will work with a labeled dataset of SMS messages and train a model using features created from text (for example: **bag-of-words** or **TF–IDF**).
+This project explores a classic machine learning problem: classifying SMS messages as ham or spam, using a dataset full of noisy, shorthand-heavy language from early-2000s mobile texting.
+
+Rather than treating this as a simple modeling exercise, I approached it as a full data science workflow, emphasizing interpretability and robustness under changing assumptions. The project combines exploratory analysis, iterative feature engineering, and systematic model evaluation to understand why certain approaches work—and where they fail.
+
+Using the UCI / SMS Spam Collection Dataset [(Kaggle)](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset/data), I:
+- Recovered and cleaned an improperly formatted CSV containing 5,572 SMS messages
+- Analyzed linguistic patterns and structural differences between ham and spam messages
+- Designed and tested multiple text preprocessing strategies tailored to 2000s-era SMS slang and shorthand
+- Evaluated baseline, linear, tree-based, and ensemble models with a precision-first objective to minimize false positives
+- Performed repeated train–test splits and cross-validation to assess model stability, not just peak performance
+- Iteratively optimized vectorization, n-grams, and preprocessing based on empirical results
+- Extended the project post-submission by incorporating a dual-channel original text + cleaned text representation, significantly improving recall without sacrificing precision
+
+The result is a well-calibrated spam classifier that balances performance, interpretability, and practical deployment concerns—and a deeper understanding of how text preprocessing choices can matter as much as model selection.
 
 ---
 
-## Learning Goals
-By the end of this project, you should be able to:
+## Results
 
-- Load and explore a real dataset with text + labels
-- Clean and preprocess text (basic normalization)
-- Convert text to numerical features with **CountVectorizer** or **TfidfVectorizer**
-- Train at least one classification model (baseline + improved)
-- Evaluate with a **confusion matrix**, **precision**, **recall**, **F1**, and optionally an ROC curve
-- Explain tradeoffs (false positives vs. false negatives) in a spam filter
+Model performance was evaluated using a held-out test set and repeated cross-validation, with a primary focus on precision to minimize false positives (misclassifying legitimate messages as spam).
 
----
+| Vectorization            | Model           | Precision       | Recall          | F1 Score        | Accuracy        |
+| ------------------------ | --------------- | :-------------: | :-------------: | :-------------: | :-------------: |
+| Word n-grams             | Random Forest   | 0.996 +/- 0.005 | 0.824 +/- 0.026 | 0.902 +/- 0.016 | 0.976 +/- 0.004 |
+| Word + Character n-grams | Random Forest   | 0.993 +/- 0.006 | 0.911 +/- 0.020 | 0.950 +/- 0.012 | 0.987 +/- 0.003 | 
+| Word + Character n-grams | SVC             | 0.994 +/- 0.006 | 0.933 +/- 0.013 | 0.962 +/- 0.008 | 0.990 +/- 0.002 | 
 
-## Dataset
-We will use the **[SMS Spam Collection** dataset](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset/data) (ham/spam labeled messages).
+Beyond raw metrics, repeated train–test splits showed low variance in performance, indicating that results were stable and not driven by a favorable random split.
 
-- Each row is a text message with a label: `ham` or `spam`
-- You’ll treat `spam` as the “positive” class
+Feature analysis confirmed that:
+- Combining cleaned and original text representations improved recall without meaningfully increasing false positives
+- Word n-grams contributed semantic structure and interpretability
+- Character n-grams were especially effective at capturing obfuscated spam terms, typos, and SMS shorthand
 
-What you will submit:
-- A Colab notebook with your code, outputs, and written interpretation
-- Clear evaluation and discussion of results
-- A short “recommendation” at the end: what model would you use and why?
+These results demonstrate that, for noisy short-text problems like SMS spam detection, feature engineering and preprocessing choices can be as impactful as model selection.
 
 ---
 
