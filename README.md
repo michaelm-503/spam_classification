@@ -1,7 +1,7 @@
 # Project: Ham vs. Spam: SMS Text Classification
 
 
-####Table of Contents
+**Table of Contents**
 1. [Overview](#overview)
 2. [Results](#results)
 3. [Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)
