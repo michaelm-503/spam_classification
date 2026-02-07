@@ -1,4 +1,4 @@
-# Project: Ham vs. Spam: SMS Text Classification
+# Ham vs. Spam: SMS Text Classification
 
 
 **Table of Contents**
